@@ -1,0 +1,3 @@
+sensor.garage_sensor_access_control_2_9:
+  ignored: false
+  polling_intensity: 1

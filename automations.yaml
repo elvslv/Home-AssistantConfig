@@ -1,0 +1,59 @@
+- action:
+  - alias: ''
+    data:
+      message: Garage door was opened!
+    service: notify.telegram_notify
+  - data:
+      message: Garage door was opened!
+    service: persistent_notification.create
+  alias: garage_door_opened
+  id: '1500252033618'
+  trigger:
+  - entity_id: sensor.garage_sensor_access_control_2_9
+    from: '23'
+    platform: state
+    to: '22'
+- action:
+  - data:
+      message: Garage door closed!
+    service: persistent_notification.create
+  - data:
+      message: Garage door closed!
+    service: notify.telegram_notify
+  alias: garage_door_closed
+  id: '1500252439165'
+  trigger:
+  - entity_id: sensor.garage_sensor_access_control_2_9
+    from: '22'
+    platform: state
+    to: '23'
+- action:
+  - data:
+      message: 'pong'
+    service: notify.telegram_notify
+  alias: 'Telegram bot that reply pong to ping'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: '/ping'
+- action:
+  - data_template:
+      message: >
+        {%- if states.sensor.garage_sensor_access_control_2_9.state == '23' %}
+        closed
+        {%- elif states.sensor.garage_sensor_access_control_2_9.state == '22' %}
+        open
+        {%- else %}
+        {{states.sensor.garage_sensor_access_control_2_9.state}}
+        {%- endif %}
+    service: notify.telegram_notify
+  alias: 'Get garage door status'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: '/garage_door_status'
+

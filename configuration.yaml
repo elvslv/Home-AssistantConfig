@@ -1,0 +1,92 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 47.4793
+  longitude: -121.543
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 632
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Los_Angeles
+
+# Show links to resources in log and frontend
+introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  # Uncomment this to add a password (recommended!)
+  # api_password: PASSWORD
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+# Weather Prediction
+# sensor:
+#   platform: yr
+  
+sensor:
+  - platform: template
+    sensors:
+      garage_door_state:
+        friendly_name: 'Garage door'
+        value_template: >-
+          {%- if states.sensor.garage_sensor_access_control_2_9.state == '23' %}
+            closed
+          {%- elif states.sensor.garage_sensor_access_control_2_9.state == '22' %}
+            open
+          {%- else %}
+            {{states.sensor.garage_sensor_access_control_2_9.state}}
+          {%- endif %}
+
+# Text to speech
+tts:
+  platform: google
+
+group: !include groups.yaml
+automation: !include automations.yaml
+
+ecobee:
+  api_key: !secret ecobee_api_key
+  
+telegram_bot:
+  platform: polling
+  api_key: !secret telegram_bot_api_key
+  allowed_chat_ids:
+    - !secret telegram_bot_allowed_chat_id_lena
+
+notify:
+  - name: telegram_notify
+    platform: telegram
+    chat_id: !secret telegram_bot_allowed_chat_id_lena
+
+zwave:
+  usb_path: /dev/ttyACM0 
+
