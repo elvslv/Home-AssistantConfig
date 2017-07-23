@@ -70,3 +70,19 @@
     from: '0'
     platform: state
     to: '3'
+- action:
+  - alias: garage_sensor_low_power
+    data:
+      message: Low power for garage door sensor
+    service: persistent_notification.create
+  - alias: garage_sensor_low_power_telegram
+    data:
+      message: Low power for garage door sensor
+    service: notify.telegram_notify
+  alias: garage_door_sensor_low_power
+  id: '1500789719339'
+  trigger:
+  - entity_id: sensor.garage_sensor_power_management_2_11
+    from: '0'
+    platform: state
+    to: '11'
