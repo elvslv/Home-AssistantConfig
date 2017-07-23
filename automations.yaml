@@ -29,31 +29,44 @@
     to: '23'
 - action:
   - data:
-      message: 'pong'
+      message: pong
     service: notify.telegram_notify
-  alias: 'Telegram bot that reply pong to ping'
+  alias: Telegram bot that reply pong to ping
   hide_entity: true
   trigger:
     platform: event
     event_type: telegram_command
     event_data:
-      command: '/ping'
+      command: /ping
 - action:
   - data_template:
-      message: >
-        {%- if states.sensor.garage_sensor_access_control_2_9.state == '23' %}
-        closed
-        {%- elif states.sensor.garage_sensor_access_control_2_9.state == '22' %}
-        open
-        {%- else %}
-        {{states.sensor.garage_sensor_access_control_2_9.state}}
+      message: '{%- if states.sensor.garage_sensor_access_control_2_9.state == ''23''
+        %} closed {%- elif states.sensor.garage_sensor_access_control_2_9.state ==
+        ''22'' %} open {%- else %} {{states.sensor.garage_sensor_access_control_2_9.state}}
         {%- endif %}
+
+        '
     service: notify.telegram_notify
-  alias: 'Get garage door status'
+  alias: Get garage door status
   hide_entity: true
   trigger:
     platform: event
     event_type: telegram_command
     event_data:
-      command: '/garage_door_status'
-
+      command: /garage_door_status
+- action:
+  - alias: garage_door_sensor_case_removed
+    data:
+      message: Garage door sensor case removed
+    service: persistent_notification.create
+  - alias: garage_door_sensor_case_removed_
+    data:
+      message: Garage door sensor case removed
+    service: notify.telegram_notify
+  alias: sensor_case_removed
+  id: '1500789219671'
+  trigger:
+  - entity_id: sensor.garage_sensor_burglar_2_10
+    from: '0'
+    platform: state
+    to: '3'
