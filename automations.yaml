@@ -86,3 +86,12 @@
     from: '0'
     platform: state
     to: '11'
+- action:
+  - service: homeassistant.restart
+  alias: Restart home assistant
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: /restart_hass
