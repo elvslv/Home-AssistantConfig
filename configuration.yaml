@@ -24,7 +24,10 @@ http:
   # Uncomment this to add a password (recommended!)
   api_password: !secret api_password
   # Uncomment this if you are using SSL or running in Docker etc
-  # base_url: example.duckdns.org:8123
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  base_url: !secret base_url
+
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -66,6 +69,12 @@ sensor:
             {{states.sensor.garage_sensor_access_control_2_9.state}}
           {%- endif %}
 
+  - platform: command_line
+    name: SSL cert expiry
+    unit_of_measurement: days
+    scan_interval: 10800
+    command: !secret ssl_expiry_command
+
 # Text to speech
 tts:
   platform: google
@@ -96,3 +105,5 @@ device_tracker:
 zwave:
   usb_path: /dev/ttyACM0 
 
+shell_command: 
+  renew_ssl: ~/certbot/certbot-auto renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
