@@ -107,3 +107,5 @@ zwave:
 
 shell_command: 
   renew_ssl: ~/certbot/certbot-auto renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
+
+ios:
