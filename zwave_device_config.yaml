@@ -1,3 +1,15 @@
 sensor.garage_sensor_access_control_2_9:
   ignored: false
   polling_intensity: 1
+sensor.fibaro_system_unknown_type0701_id2001_temperature_4_1:
+  ignored: false
+  polling_intensity: 1
+binary_sensor.fibaro_system_unknown_type0701_id2001_sensor_4_0:
+  ignored: false
+  polling_intensity: 1
+sensor.fibaro_system_unknown_type0701_id2001_temperature_5_1:
+  ignored: false
+  polling_intensity: 1
+binary_sensor.fibaro_door_sensor_sensor_5_0:
+  ignored: false
+  polling_intensity: 0

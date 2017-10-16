@@ -95,16 +95,14 @@
     event_type: telegram_command
     event_data:
       command: /restart_hass
-
-- alias: 'Auto Renew SSL Cert'
+- alias: Auto Renew SSL Cert
   trigger:
     platform: numeric_state
     entity_id: sensor.ssl_cert_expiry
     below: 29
   action:
     service: shell_command.renew_ssl
-
-- alias: 'SSL expiry notification'
+- alias: SSL expiry notification
   trigger:
     platform: numeric_state
     entity_id: sensor.ssl_cert_expiry
@@ -112,5 +110,19 @@
   action:
     service: notify.telegram_notify
     data:
-      message: 'Warning - SSL certificate expires in 21 days and has not been automatically renewed'
-
+      message: Warning - SSL certificate expires in 21 days and has not been automatically
+        renewed
+- action:
+  - data:
+      message: High temperature!
+    service: persistent_notification.create
+  - data:
+      message: High temperature!
+    service: notify.telegram_notify
+  alias: high_temperature
+  id: '1507784093722'
+  trigger:
+  - above: '86'
+    below: '1000'
+    entity_id: sensor.fibaro_door_sensor_temperature_8_1
+    platform: numeric_state
