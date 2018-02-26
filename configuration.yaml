@@ -90,6 +90,7 @@ telegram_bot:
   api_key: !secret telegram_bot_api_key
   allowed_chat_ids:
     - !secret telegram_bot_allowed_chat_id_lena
+    - !secret telegram_bot_allowed_chat_id_kirill
 
 notify:
   - name: telegram_notify

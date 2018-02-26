@@ -1,11 +1,13 @@
 - action:
-  - alias: ''
-    data:
-      message: Garage door was opened!
-    service: notify.telegram_notify
   - data:
       message: Garage door was opened!
-    service: persistent_notification.create
+      target:
+      - !secret telegram_bot_allowed_chat_id_lena
+      - !secret telegram_bot_allowed_chat_id_kirill
+    service: telegram_bot.send_message
+  - data:
+      message: Garage door was opened!
+    service: telegram_bot.send_message
   alias: garage_door_opened
   id: '1500252033618'
   trigger:
@@ -18,8 +20,11 @@
       message: Garage door closed!
     service: persistent_notification.create
   - data:
-      message: Garage door closed!
-    service: notify.telegram_notify
+      message: Garage door was closed!
+      target:
+      - !secret telegram_bot_allowed_chat_id_lena
+      - !secret telegram_bot_allowed_chat_id_kirill
+    service: telegram_bot.send_message
   alias: garage_door_closed
   id: '1500252439165'
   trigger:
@@ -118,11 +123,32 @@
     service: persistent_notification.create
   - data:
       message: High temperature!
-    service: notify.telegram_notify
+      target:
+      - !secret telegram_bot_allowed_chat_id_lena
+      - !secret telegram_bot_allowed_chat_id_kirill
+    service: telegram_bot.send_message
   alias: high_temperature
   id: '1507784093722'
   trigger:
   - above: '86'
     below: '1000'
+    entity_id: sensor.fibaro_door_sensor_temperature_8_1
+    platform: numeric_state
+- action:
+  - alias: ''
+    data:
+      message: Normal temperature
+    service: persistent_notification.create
+  - data:
+      message: Normal temperature
+      target:
+      - !secret telegram_bot_allowed_chat_id_lena
+      - !secret telegram_bot_allowed_chat_id_kirill
+    service: telegram_bot.send_message
+  alias: normal_temperature
+  id: '1517797065431'
+  trigger:
+  - above: '0'
+    below: '86'
     entity_id: sensor.fibaro_door_sensor_temperature_8_1
     platform: numeric_state
