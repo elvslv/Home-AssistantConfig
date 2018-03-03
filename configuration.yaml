@@ -75,6 +75,33 @@ sensor:
     scan_interval: 10800
     command: !secret ssl_expiry_command
 
+  - platform: template
+    sensors:
+      status_smoke_co_alarm:
+        value_template: >-
+          {%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level_10_1.state ==  "0" %}
+              Idle
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state == "1" %}
+              Fire Detected
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state == "2" %}
+              Carbon Monoxide Detected
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state == "12"  %}
+              Alarm Testing
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state ==  "13" %}
+              Idle
+          {% else %}
+              {{states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state}}
+          {%- endif %}
+        friendly_name: 'Smoke/CO Alarm'
+
+  - platform: template
+    sensors:
+      battery_level_smoke_co_alarm:
+        value_template: '{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10.attributes.battery_level}}'
+        friendly_name: 'Smoke/CO Alarm Battery'
+        unit_of_measurement: '%'
+
+
 # Text to speech
 tts:
   platform: google
@@ -110,3 +137,17 @@ shell_command:
   renew_ssl: ~/certbot/certbot-auto renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
 
 ios:
+
+script:
+  notify_all:
+    sequence:
+      - service: telegram_bot.send_message
+        data:
+          message: "{{ message }}"
+          target:
+          - !secret telegram_bot_allowed_chat_id_lena
+          - !secret telegram_bot_allowed_chat_id_kirill
+      - service: persistent_notification.create
+        data:
+          message: "{{ message }}"
+
