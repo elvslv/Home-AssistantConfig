@@ -1,13 +1,7 @@
 - action:
-  - data:
-      message: Garage door was opened!
-      target:
-      - !secret telegram_bot_allowed_chat_id_lena
-      - !secret telegram_bot_allowed_chat_id_kirill
-    service: telegram_bot.send_message
-  - data:
-      message: Garage door was opened!
-    service: telegram_bot.send_message
+  - service: script.notify_all
+    data:
+      message: 'Garage door was opened!'
   alias: garage_door_opened
   id: '1500252033618'
   trigger:
@@ -16,15 +10,9 @@
     platform: state
     to: '22'
 - action:
-  - data:
-      message: Garage door closed!
-    service: persistent_notification.create
-  - data:
-      message: Garage door was closed!
-      target:
-      - !secret telegram_bot_allowed_chat_id_lena
-      - !secret telegram_bot_allowed_chat_id_kirill
-    service: telegram_bot.send_message
+  - service: script.notify_all
+    data:
+      message: 'Garage door was closed!'
   alias: garage_door_closed
   id: '1500252439165'
   trigger:
@@ -60,14 +48,9 @@
     event_data:
       command: /garage_door_status
 - action:
-  - alias: garage_door_sensor_case_removed
+  - service: script.notify_all
     data:
-      message: Garage door sensor case removed
-    service: persistent_notification.create
-  - alias: garage_door_sensor_case_removed_
-    data:
-      message: Garage door sensor case removed
-    service: notify.telegram_notify
+      message: 'Garage door sensor case was removed!'  
   alias: sensor_case_removed
   id: '1500789219671'
   trigger:
@@ -76,14 +59,9 @@
     platform: state
     to: '3'
 - action:
-  - alias: garage_sensor_low_power
+  - service: script.notify_all
     data:
-      message: Low power for garage door sensor
-    service: persistent_notification.create
-  - alias: garage_sensor_low_power_telegram
-    data:
-      message: Low power for garage door sensor
-    service: notify.telegram_notify
+      message: 'Low power for garage door sensor'  
   alias: garage_door_sensor_low_power
   id: '1500789719339'
   trigger:
@@ -118,15 +96,9 @@
       message: Warning - SSL certificate expires in 21 days and has not been automatically
         renewed
 - action:
-  - data:
-      message: High temperature!
-    service: persistent_notification.create
-  - data:
-      message: High temperature!
-      target:
-      - !secret telegram_bot_allowed_chat_id_lena
-      - !secret telegram_bot_allowed_chat_id_kirill
-    service: telegram_bot.send_message
+  - service: script.notify_all
+    data:
+      message: 'High temperature!'  
   alias: high_temperature
   id: '1507784093722'
   trigger:
@@ -135,16 +107,9 @@
     entity_id: sensor.fibaro_door_sensor_temperature_8_1
     platform: numeric_state
 - action:
-  - alias: ''
+  - service: script.notify_all
     data:
-      message: Normal temperature
-    service: persistent_notification.create
-  - data:
-      message: Normal temperature
-      target:
-      - !secret telegram_bot_allowed_chat_id_lena
-      - !secret telegram_bot_allowed_chat_id_kirill
-    service: telegram_bot.send_message
+      message: 'Normal  temperature'  
   alias: normal_temperature
   id: '1517797065431'
   trigger:

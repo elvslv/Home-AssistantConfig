@@ -142,12 +142,12 @@ script:
   notify_all:
     sequence:
       - service: telegram_bot.send_message
-        data:
+        data_template:
           message: "{{ message }}"
           target:
           - !secret telegram_bot_allowed_chat_id_lena
           - !secret telegram_bot_allowed_chat_id_kirill
       - service: persistent_notification.create
-        data:
+        data_template:
           message: "{{ message }}"
 
