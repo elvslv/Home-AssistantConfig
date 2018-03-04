@@ -10,6 +10,23 @@ homeassistant:
   unit_system: imperial
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
+  customize:
+    group.all_automations:
+      hidden: false
+    group.all_scripts:
+      hidden: false
+    group.all_devices:
+      hidden: false
+    sensor.fibaro_door_sensor_temperature_8_1:
+      hidden: false
+
+  customize_glob:
+    sensor.garage_sensor_*:
+      hidden: true
+    sensor.fibaro_door_sensor_*:
+      hidden: true
+    sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_*:
+      hidden: true
 
 # Show links to resources in log and frontend
 introduction:
