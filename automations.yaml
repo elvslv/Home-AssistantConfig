@@ -1,7 +1,7 @@
 - action:
   - service: script.notify_all
     data:
-      message: 'Garage door was opened!'
+      message: Garage door was opened!
   alias: garage_door_opened
   id: '1500252033618'
   trigger:
@@ -12,7 +12,7 @@
 - action:
   - service: script.notify_all
     data:
-      message: 'Garage door was closed!'
+      message: Garage door was closed!
   alias: garage_door_closed
   id: '1500252439165'
   trigger:
@@ -50,7 +50,7 @@
 - action:
   - service: script.notify_all
     data:
-      message: 'Garage door sensor case was removed!'  
+      message: Garage door sensor case was removed!
   alias: sensor_case_removed
   id: '1500789219671'
   trigger:
@@ -61,7 +61,7 @@
 - action:
   - service: script.notify_all
     data:
-      message: 'Low power for garage door sensor'  
+      message: Low power for garage door sensor
   alias: garage_door_sensor_low_power
   id: '1500789719339'
   trigger:
@@ -98,7 +98,7 @@
 - action:
   - service: script.notify_all
     data:
-      message: 'High temperature!'  
+      message: High temperature!
   alias: high_temperature
   id: '1507784093722'
   trigger:
@@ -109,7 +109,7 @@
 - action:
   - service: script.notify_all
     data:
-      message: 'Normal  temperature'  
+      message: Normal  temperature
   alias: normal_temperature
   id: '1517797065431'
   trigger:
@@ -117,3 +117,41 @@
     below: '86'
     entity_id: sensor.fibaro_door_sensor_temperature_8_1
     platform: numeric_state
+- action:
+  - service: script.notify_all
+    data:
+      message: Fire alert!!!!
+  alias: fire_alert
+  trigger:
+    platform: template
+    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state
+      == ''1'' %}true{% endif %}'
+- action:
+  - service: script.notify_all
+    data:
+      message: CO alert!!!!
+  alias: co_alert
+  trigger:
+    platform: template
+    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state
+      == ''2'' %}true{% endif %}'
+- action:
+  - service: script.notify_all
+    data:
+      message: Alarm testing
+  alias: alarm_testing
+  trigger:
+    platform: template
+    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state
+      == ''12'' %}true{% endif %}'
+- action:
+  - data:
+      message: Low battery for fire alarm
+    service: script.notify_all
+  alias: fire_alram_low_battery
+  id: '1520122187139'
+  trigger:
+  - below: '30'
+    entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10
+    platform: numeric_state
+    value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10.attributes.battery_level

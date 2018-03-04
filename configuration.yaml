@@ -101,6 +101,12 @@ sensor:
         friendly_name: 'Smoke/CO Alarm Battery'
         unit_of_measurement: '%'
 
+  - platform: template
+    sensors:
+      battery_level_garage_door:
+        value_template: '{{states.zwave.garage_sensor_2.attributes.battery_level}}'
+        friendly_name: 'Garage Door Sensor Battery'
+        unit_of_measurement: '%'
 
 # Text to speech
 tts:
