@@ -1,25 +1,25 @@
-- action:
-  - service: script.notify_all
-    data:
-      message: Garage door was opened!
+- id: '1500252033618'
   alias: garage_door_opened
-  id: '1500252033618'
   trigger:
-  - entity_id: sensor.garage_sensor_access_control_2_9
-    from: '23'
+  - entity_id: binary_sensor.garage_sensor_sensor
+    from: 'off'
     platform: state
-    to: '22'
-- action:
-  - service: script.notify_all
-    data:
-      message: Garage door was closed!
+    to: 'on'
+  action:
+  - data:
+      message: Garage door was opened!
+    service: script.notify_all
+- id: '1500252439165'
   alias: garage_door_closed
-  id: '1500252439165'
   trigger:
-  - entity_id: sensor.garage_sensor_access_control_2_9
-    from: '22'
+  - entity_id: binary_sensor.garage_sensor_sensor
+    from: 'on'
     platform: state
-    to: '23'
+    to: 'off'
+  action:
+  - data:
+      message: Garage door was closed!
+    service: script.notify_all
 - action:
   - data:
       message: pong
@@ -31,6 +31,7 @@
     event_type: telegram_command
     event_data:
       command: /ping
+  id: 3c964bd9ca914c068ccde70a99e865ec
 - action:
   - data_template:
       message: '{%- if states.sensor.garage_sensor_access_control_2_9.state == ''23''
@@ -47,28 +48,29 @@
     event_type: telegram_command
     event_data:
       command: /garage_door_status
-- action:
-  - service: script.notify_all
-    data:
-      message: Garage door sensor case was removed!
+  id: 41af0bffdd604c7ca10d8dd893dc3c2a
+- id: '1500789219671'
   alias: sensor_case_removed
-  id: '1500789219671'
   trigger:
-  - entity_id: sensor.garage_sensor_burglar_2_10
+  - entity_id: sensor.garage_sensor_burglar
     from: '0'
     platform: state
     to: '3'
-- action:
-  - service: script.notify_all
-    data:
-      message: Low power for garage door sensor
+  action:
+  - data:
+      message: Garage door sensor case was removed!
+    service: script.notify_all
+- id: '1500789719339'
   alias: garage_door_sensor_low_power
-  id: '1500789719339'
   trigger:
-  - entity_id: sensor.garage_sensor_power_management_2_11
+  - entity_id: sensor.garage_sensor_power_management
     from: '0'
     platform: state
     to: '11'
+  action:
+  - data:
+      message: Low power for garage door sensor
+    service: script.notify_all
 - action:
   - service: homeassistant.restart
   alias: Restart home assistant
@@ -78,6 +80,7 @@
     event_type: telegram_command
     event_data:
       command: /restart_hass
+  id: 8fb931af9bae4a8a92b03fd9e114d10f
 - alias: Auto Renew SSL Cert
   trigger:
     platform: numeric_state
@@ -85,6 +88,7 @@
     below: 29
   action:
     service: shell_command.renew_ssl
+  id: 08088ce9659a4c02841534f5220d46c7
 - alias: SSL expiry notification
   trigger:
     platform: numeric_state
@@ -95,28 +99,29 @@
     data:
       message: Warning - SSL certificate expires in 21 days and has not been automatically
         renewed
-- action:
-  - service: script.notify_all
-    data:
-      message: High temperature!
+  id: 70f56b5e870246a89a8105ff5c810bb2
+- id: '1507784093722'
   alias: high_temperature
-  id: '1507784093722'
   trigger:
-  - above: '86'
+  - above: '100'
     below: '1000'
-    entity_id: sensor.fibaro_door_sensor_temperature_8_1
+    entity_id: sensor.fibaro_door_sensor_temperature
     platform: numeric_state
-- action:
-  - service: script.notify_all
-    data:
-      message: Normal  temperature
+  action:
+  - data:
+      message: High temperature!
+    service: script.notify_all
+- id: '1517797065431'
   alias: normal_temperature
-  id: '1517797065431'
   trigger:
   - above: '0'
-    below: '86'
-    entity_id: sensor.fibaro_door_sensor_temperature_8_1
+    below: '100'
+    entity_id: sensor.fibaro_door_sensor_temperature
     platform: numeric_state
+  action:
+  - data:
+      message: Normal  temperature
+    service: script.notify_all
 - action:
   - service: script.notify_all
     data:
@@ -124,8 +129,9 @@
   alias: fire_alert
   trigger:
     platform: template
-    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state
+    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
       == ''1'' %}true{% endif %}'
+  id: 64bb30a2d16f45978c161c12b75e14dd
 - action:
   - service: script.notify_all
     data:
@@ -133,8 +139,9 @@
   alias: co_alert
   trigger:
     platform: template
-    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state
+    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
       == ''2'' %}true{% endif %}'
+  id: 7bada79962d14c53ae5195f3055d8b78
 - action:
   - service: script.notify_all
     data:
@@ -142,16 +149,29 @@
   alias: alarm_testing
   trigger:
     platform: template
-    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state
+    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
       == ''12'' %}true{% endif %}'
-- action:
+  id: efc3a86d9485418d9d99dbdba0e525af
+- id: '1520122187139'
+  alias: fire_alram_low_battery
+  trigger:
+  - below: '30'
+    entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector
+    platform: numeric_state
+    value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10.attributes.battery_level
+  action:
   - data:
       message: Low battery for fire alarm
     service: script.notify_all
-  alias: fire_alram_low_battery
-  id: '1520122187139'
+- id: '1536450552696'
+  alias: kirill_left_home
   trigger:
-  - below: '30'
-    entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10
-    platform: numeric_state
-    value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10.attributes.battery_level
+  - entity_id: device_tracker.kirill_siphone
+    from: '''home'''
+    platform: state
+    to: '''not_home'''
+  action:
+  - alias: ''
+    data:
+      message: Kirill has left home
+    service: script.notify_lena

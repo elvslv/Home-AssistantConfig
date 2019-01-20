@@ -28,6 +28,11 @@ homeassistant:
     sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_*:
       hidden: true
 
+  auth_providers:
+   - type: legacy_api_password
+   - type: homeassistant
+
+
 # Show links to resources in log and frontend
 introduction:
 
@@ -38,9 +43,9 @@ frontend:
 config:
 
 http:
-  # Uncomment this to add a password (recommended!)
+# Uncomment this to add a password (recommended!)
   api_password: !secret api_password
-  # Uncomment this if you are using SSL or running in Docker etc
+# Uncomment this if you are using SSL or running in Docker etc
   ssl_certificate: !secret ssl_certificate
   ssl_key: !secret ssl_key
   base_url: !secret base_url
@@ -174,3 +179,15 @@ script:
         data_template:
           message: "{{ message }}"
 
+  notify_lena:
+    sequence:
+      - service: telegram_bot.send_message
+        data_template:
+          message: "{{ message }}"
+          target:
+          - !secret telegram_bot_allowed_chat_id_lena
+
+august:
+  login_method: email
+  username: "elvslv@gmail.com"
+  password: !secret august_password
