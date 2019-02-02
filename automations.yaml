@@ -200,3 +200,16 @@
   - data:
       message: Balcony door was closed
     service: script.notify_all
+- id: '1549081855630'
+  alias: Front door unlocked
+  trigger:
+  - entity_id: lock.front_door
+    for: 00:10
+    from: locked
+    platform: state
+    to: unlocked
+  condition: []
+  action:
+  - data:
+      message: Front door has been opened for a while!
+    service: script.notify_all
