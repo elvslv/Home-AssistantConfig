@@ -191,3 +191,15 @@ august:
   login_method: email
   username: "elvslv@gmail.com"
   password: !secret august_password
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.august: info
+
+recorder:
+
+variable:
+  front_door_open:
+    value: False
+  

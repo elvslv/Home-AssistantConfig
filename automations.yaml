@@ -208,7 +208,10 @@
     from: locked
     platform: state
     to: unlocked
-  condition: []
+  condition: 
+    condition: state
+    entity_id: lock.front_door
+    state: unlocked
   action:
   - data:
       message: Front door has been opened for a while!
