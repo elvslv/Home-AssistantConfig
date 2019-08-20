@@ -1,0 +1,69 @@
+sensor.fibaro_system_fgk10x_door_opening_sensor_alarm_type_4:
+  hidden: true
+sensor.fibaro_system_fgk10x_door_opening_sensor_burglar_4:
+  hidden: true
+sensor.fibaro_system_fgk10x_door_opening_sensor_general_4:
+  hidden: true
+sensor.fibaro_system_fgk10x_door_opening_sensor_heat_2:
+  hidden: true
+binary_sensor.fibaro_system_fgk10x_door_opening_sensor_sensor_4:
+  hidden: true
+sensor.fibaro_system_fgk10x_door_opening_sensor_sourcenodeid_4:
+  hidden: true
+sensor.fibaro_system_fgk10x_door_opening_sensor_system_2:
+  hidden: true
+zwave.fibaro_system_fgk10x_door_opening_sensor_4: {}
+sensor.fibaro_system_fgk10x_door_opening_sensor_access_control_4:
+  hidden: true
+sensor.fibaro_system_fgk10x_door_opening_sensor_alarm_level_4:
+  hidden: true
+zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector: {}
+sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level:
+  hidden: true
+sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type:
+  hidden: true
+zwave.neo_coolcam_door_window_detector: {}
+sensor.neo_coolcam_door_window_detector_access_control:
+  hidden: true
+sensor.neo_coolcam_door_window_detector_alarm_level:
+  hidden: true
+sensor.neo_coolcam_door_window_detector_alarm_type:
+  hidden: true
+sensor.neo_coolcam_door_window_detector_sourcenodeid:
+  hidden: true
+device_tracker.elena_sipad:
+  hidden: true
+device_tracker.elenasipad:
+  hidden: true
+device_tracker.elenasmacbookpro:
+  hidden: true
+device_tracker.kirillsiphone:
+  hidden: true
+device_tracker.kirill_siphone:
+  hidden: true
+device_tracker.lenasiphone:
+  hidden: true
+sensor.lenas_iphone_battery_level:
+  hidden: true
+sensor.lenas_iphone_battery_state:
+  hidden: true
+device_tracker.macbookpro:
+  hidden: true
+device_tracker.iphonelena:
+  hidden: true
+device_tracker.lenas_iphone:
+  hidden: true
+device_tracker.lenavmbp:
+  hidden: true
+sensor.garage_sensor_burglar:
+  hidden: true
+sensor.garage_sensor_access_control:
+  hidden: true
+sensor.garage_sensor_alarm_level:
+  hidden: true
+sensor.garage_sensor_alarm_type:
+  hidden: true
+sensor.garage_sensor_power_management:
+  hidden: true
+sensor.garage_sensor_sourcenodeid:
+  hidden: true

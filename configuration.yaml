@@ -10,23 +10,7 @@ homeassistant:
   unit_system: imperial
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Los_Angeles
-  customize:
-    group.all_automations:
-      hidden: false
-    group.all_scripts:
-      hidden: false
-    group.all_devices:
-      hidden: false
-    sensor.fibaro_door_sensor_temperature_8_1:
-      hidden: false
-
-  customize_glob:
-    sensor.garage_sensor_*:
-      hidden: true
-    sensor.fibaro_door_sensor_*:
-      hidden: true
-    sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_*:
-      hidden: true
+  customize: !include customize.yaml
 
   auth_providers:
    - type: legacy_api_password
@@ -83,12 +67,12 @@ sensor:
       garage_door_state:
         friendly_name: 'Garage door'
         value_template: >-
-          {%- if states.sensor.garage_sensor_access_control_2_9.state == '23' %}
+          {%- if states.sensor.garage_sensor_access_control.state == '23' %}
             closed
-          {%- elif states.sensor.garage_sensor_access_control_2_9.state == '22' %}
+          {%- elif states.sensor.garage_sensor_access_control.state == '22' %}
             open
           {%- else %}
-            {{states.sensor.garage_sensor_access_control_2_9.state}}
+            {{states.sensor.garage_sensor_access_control.state}}
           {%- endif %}
 
   - platform: command_line
@@ -101,32 +85,32 @@ sensor:
     sensors:
       status_smoke_co_alarm:
         value_template: >-
-          {%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level_10_1.state ==  "0" %}
+          {%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level.state ==  "0" %}
               Idle
-          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state == "1" %}
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == "1" %}
               Fire Detected
-          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state == "2" %}
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == "2" %}
               Carbon Monoxide Detected
-          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state == "12"  %}
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == "12"  %}
               Alarm Testing
-          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state ==  "13" %}
+          {%- elif states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state ==  "13" %}
               Idle
           {% else %}
-              {{states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_10_0.state}}
+              {{states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state}}
           {%- endif %}
         friendly_name: 'Smoke/CO Alarm'
 
   - platform: template
     sensors:
       battery_level_smoke_co_alarm:
-        value_template: '{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10.attributes.battery_level}}'
+        value_template: '{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector.attributes.battery_level}}'
         friendly_name: 'Smoke/CO Alarm Battery'
         unit_of_measurement: '%'
 
   - platform: template
     sensors:
       battery_level_garage_door:
-        value_template: '{{states.zwave.garage_sensor_2.attributes.battery_level}}'
+        value_template: '{{states.zwave.garage_sensor.attributes.battery_level}}'
         friendly_name: 'Garage Door Sensor Battery'
         unit_of_measurement: '%'
 
@@ -162,7 +146,7 @@ zwave:
   usb_path: /dev/ttyACM0 
 
 shell_command: 
-  renew_ssl: ~/certbot/certbot-auto renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
+  renew_ssl: /home/homeassistant/certbot/certbot-auto renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
 
 ios:
 
@@ -174,7 +158,6 @@ script:
           message: "{{ message }}"
           target:
           - !secret telegram_bot_allowed_chat_id_lena
-          - !secret telegram_bot_allowed_chat_id_kirill
       - service: persistent_notification.create
         data_template:
           message: "{{ message }}"
@@ -200,6 +183,6 @@ logger:
 recorder:
 
 variable:
-  front_door_open:
+  front_door_open_triggered:
     value: False
   

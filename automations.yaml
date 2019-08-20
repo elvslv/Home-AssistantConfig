@@ -23,8 +23,8 @@
 - action:
   - data:
       message: pong
-    service: notify.telegram_notify
-  alias: Telegram bot that reply pong to ping
+    service: script.notify_all
+  alias: Telegram bot that replies pong to ping
   hide_entity: true
   trigger:
     platform: event
@@ -32,23 +32,6 @@
     event_data:
       command: /ping
   id: 3c964bd9ca914c068ccde70a99e865ec
-- action:
-  - data_template:
-      message: '{%- if states.sensor.garage_sensor_access_control_2_9.state == ''23''
-        %} closed {%- elif states.sensor.garage_sensor_access_control_2_9.state ==
-        ''22'' %} open {%- else %} {{states.sensor.garage_sensor_access_control_2_9.state}}
-        {%- endif %}
-
-        '
-    service: notify.telegram_notify
-  alias: Get garage door status
-  hide_entity: true
-  trigger:
-    platform: event
-    event_type: telegram_command
-    event_data:
-      command: /garage_door_status
-  id: 41af0bffdd604c7ca10d8dd893dc3c2a
 - id: '1500789219671'
   alias: sensor_case_removed
   trigger:
@@ -105,7 +88,7 @@
   trigger:
   - above: '100'
     below: '1000'
-    entity_id: sensor.fibaro_door_sensor_temperature
+    entity_id: sensor.fibaro_system_fgk10x_door_opening_sensor_temperature_2
     platform: numeric_state
   action:
   - data:
@@ -116,7 +99,7 @@
   trigger:
   - above: '0'
     below: '100'
-    entity_id: sensor.fibaro_door_sensor_temperature
+    entity_id: sensor.fibaro_system_fgk10x_door_opening_sensor_temperature_2
     platform: numeric_state
   action:
   - data:
@@ -129,8 +112,7 @@
   alias: fire_alert
   trigger:
     platform: template
-    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
-      == ''1'' %}true{% endif %}'
+    value_template: "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == '1' %}true{% endif %}"
   id: 64bb30a2d16f45978c161c12b75e14dd
 - action:
   - service: script.notify_all
@@ -139,8 +121,7 @@
   alias: co_alert
   trigger:
     platform: template
-    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
-      == ''2'' %}true{% endif %}'
+    value_template: "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == '2' %}true{% endif %}"
   id: 7bada79962d14c53ae5195f3055d8b78
 - action:
   - service: script.notify_all
@@ -149,8 +130,7 @@
   alias: alarm_testing
   trigger:
     platform: template
-    value_template: '{% if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
-      == ''12'' %}true{% endif %}'
+    value_template: "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == '12' %}true{% endif %}"
   id: efc3a86d9485418d9d99dbdba0e525af
 - id: '1520122187139'
   alias: fire_alram_low_battery
@@ -158,23 +138,11 @@
   - below: '30'
     entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector
     platform: numeric_state
-    value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_10.attributes.battery_level
+    value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector.attributes.battery_level
   action:
   - data:
       message: Low battery for fire alarm
     service: script.notify_all
-- id: '1536450552696'
-  alias: kirill_left_home
-  trigger:
-  - entity_id: device_tracker.kirill_siphone
-    from: '''home'''
-    platform: state
-    to: '''not_home'''
-  action:
-  - alias: ''
-    data:
-      message: Kirill has left home
-    service: script.notify_lena
 - id: '1548020412003'
   alias: Balcony door was opened
   trigger:
@@ -208,11 +176,46 @@
     from: locked
     platform: state
     to: unlocked
-  condition: 
-    condition: state
+  condition:
+  - condition: state
     entity_id: lock.front_door
     state: unlocked
   action:
   - data:
       message: Front door has been opened for a while!
+    service: script.notify_all
+  - data:
+      value: true
+      variable: front_door_open_triggered
+    service: variable.set_variable
+- id: '1549845015326'
+  alias: Front door locked
+  trigger:
+  - entity_id: lock.front_door
+    from: unlocked
+    platform: state
+    to: locked
+  condition:
+  - condition: state
+    entity_id: variable.front_door_open_triggered
+    state: 'True'
+  action:
+  - data:
+      value: false
+      variable: front_door_open_triggered
+    service: variable.set_variable
+  - data:
+      message: Front door has been closed!
+    service: script.notify_all
+- id: '1566184319280'
+  alias: New Automation
+  trigger:
+  - event_data:
+      command: /garage_door_status
+    event_type: telegram_command
+    platform: event
+  condition: []
+  action:
+  - data:
+      message: "{%- if states.sensor.garage_sensor_access_control.state == '23' %} closed {%- elif states.sensor.garage_sensor_access_control.state == '22' %} open {%- else %} {{states.sensor.garage_sensor_access_control.state}} test  {%- endif %}"
     service: script.notify_all
