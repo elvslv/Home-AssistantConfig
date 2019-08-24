@@ -22,7 +22,8 @@ sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level:
   hidden: true
 sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type:
   hidden: true
-zwave.neo_coolcam_door_window_detector: {}
+zwave.neo_coolcam_door_window_detector:
+  hidden: true
 sensor.neo_coolcam_door_window_detector_access_control:
   hidden: true
 sensor.neo_coolcam_door_window_detector_alarm_level:
@@ -77,7 +78,8 @@ sensor.ecolink_door_window_sensor_burglar:
   hidden: true
 sensor.ecolink_door_window_sensor_power_management:
   hidden: true
-binary_sensor.ecolink_door_window_sensor_sensor: {}
+binary_sensor.ecolink_door_window_sensor_sensor:
+  hidden: true
 sensor.ecolink_door_window_sensor_sourcenodeid:
   hidden: true
 sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_2:
@@ -87,4 +89,10 @@ sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level_2:
 sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level_3:
   hidden: true
 sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_3:
+  hidden: true
+zwave.ecolink_door_window_sensor:
+  hidden: true
+binary_sensor.garage_sensor_sensor:
+  hidden: true
+binary_sensor.neo_coolcam_door_window_detector_sensor:
   hidden: true

@@ -13,9 +13,8 @@ homeassistant:
   customize: !include customize.yaml
 
   auth_providers:
-   # - type: legacy_api_password
-   - type: homeassistant
-
+    # - type: legacy_api_password
+    - type: homeassistant
 
 # Show links to resources in log and frontend
 # introduction:
@@ -27,13 +26,12 @@ frontend:
 config:
 
 http:
-# Uncomment this to add a password (recommended!)
+  # Uncomment this to add a password (recommended!)
   api_password: !secret api_password
-# Uncomment this if you are using SSL or running in Docker etc
+  # Uncomment this if you are using SSL or running in Docker etc
   ssl_certificate: !secret ssl_certificate
   ssl_key: !secret ssl_key
   base_url: !secret base_url
-
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -60,12 +58,12 @@ sun:
 # Weather Prediction
 # sensor:
 #   platform: yr
-  
+
 sensor:
   - platform: template
     sensors:
       garage_door_state:
-        friendly_name: 'Garage door'
+        friendly_name: "Garage door"
         value_template: >-
           {%- if states.sensor.garage_sensor_access_control.state == '23' %}
             closed
@@ -74,6 +72,53 @@ sensor:
           {%- else %}
             {{states.sensor.garage_sensor_access_control.state}}
           {%- endif %}
+
+  - platform: template
+    sensors:
+      battery_level_garage_door:
+        value_template: "{{states.zwave.garage_sensor.attributes.battery_level}}"
+        friendly_name: "Garage Door Sensor Battery"
+        unit_of_measurement: "%"
+
+  - platform: template
+    sensors:
+      gym_window_state:
+        friendly_name: "Gym window"
+        value_template: >-
+          {%- if states.binary_sensor.ecolink_door_window_sensor_sensor.state == 'on' %}
+            open
+          {%- elif states.binary_sensor.ecolink_door_window_sensor_sensor.state == 'off' %}
+            closed
+          {%- else %}
+            {{states.binary_sensor.ecolink_door_window_sensor_sensor.state}}
+          {%- endif %}
+
+  - platform: template
+    sensors:
+      battery_level_gym_window:
+        value_template: "{{states.zwave.ecolink_door_window_sensor.attributes.battery_level}}"
+        friendly_name: "Gym Window Sensor Battery"
+        unit_of_measurement: "%"
+
+  - platform: template
+    sensors:
+      balcony_door_state:
+        friendly_name: "Balcony door"
+        value_template: >-
+          {%- if states.binary_sensor.neo_coolcam_door_window_detector_sensor.state == 'on' %}
+            open
+          {%- elif states.binary_sensor.neo_coolcam_door_window_detector_sensor.state == 'off' %}
+            closed
+          {%- else %}
+            {{states.binary_sensor.neo_coolcam_door_window_detector_sensor.state}}
+          {%- endif %}
+
+  - platform: template
+    sensors:
+      battery_level_balcony_door:
+        value_template: "{{states.zwave.neo_coolcam_door_window_detector.attributes.battery_level}}"
+        friendly_name: "Balcony Door Sensor Battery"
+        unit_of_measurement: "%"
 
   - platform: command_line
     name: SSL cert expiry
@@ -98,14 +143,14 @@ sensor:
           {% else %}
               {{states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state}}
           {%- endif %}
-        friendly_name: 'Smoke/CO Alarm, Living room'
+        friendly_name: "Smoke/CO Alarm, Living room"
 
   - platform: template
     sensors:
       battery_level_smoke_co_alarm:
-        value_template: '{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector.attributes.battery_level}}'
-        friendly_name: 'Smoke/CO Alarm Battery, Living room'
-        unit_of_measurement: '%'
+        value_template: "{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector.attributes.battery_level}}"
+        friendly_name: "Smoke/CO Alarm Battery, Living room"
+        unit_of_measurement: "%"
 
   - platform: template
     sensors:
@@ -124,14 +169,14 @@ sensor:
           {% else %}
               {{states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_2.state}}
           {%- endif %}
-        friendly_name: 'Smoke/CO Alarm, Bedroom'
+        friendly_name: "Smoke/CO Alarm, Bedroom"
 
   - platform: template
     sensors:
       battery_level_smoke_co_alarm_bedroom:
-        value_template: '{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_2.attributes.battery_level}}'
-        friendly_name: 'Smoke/CO Alarm Battery, Bedroom'
-        unit_of_measurement: '%'
+        value_template: "{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_2.attributes.battery_level}}"
+        friendly_name: "Smoke/CO Alarm Battery, Bedroom"
+        unit_of_measurement: "%"
 
   - platform: template
     sensors:
@@ -150,21 +195,14 @@ sensor:
           {% else %}
               {{states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_3.state}}
           {%- endif %}
-        friendly_name: 'Smoke/CO Alarm, Gym'
+        friendly_name: "Smoke/CO Alarm, Gym"
 
   - platform: template
     sensors:
       battery_level_smoke_co_alarm_gym:
-        value_template: '{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_3.attributes.battery_level}}'
-        friendly_name: 'Smoke/CO Alarm Battery, Gym'
-        unit_of_measurement: '%'
-
-  - platform: template
-    sensors:
-      battery_level_garage_door:
-        value_template: '{{states.zwave.garage_sensor.attributes.battery_level}}'
-        friendly_name: 'Garage Door Sensor Battery'
-        unit_of_measurement: '%'
+        value_template: "{{states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_3.attributes.battery_level}}"
+        friendly_name: "Smoke/CO Alarm Battery, Gym"
+        unit_of_measurement: "%"
 
 # Text to speech
 # tts:
@@ -175,7 +213,7 @@ automation: !include automations.yaml
 
 ecobee:
   api_key: !secret ecobee_api_key
-  
+
 telegram_bot:
   platform: polling
   api_key: !secret telegram_bot_api_key
@@ -195,9 +233,9 @@ device_tracker:
     account_name: lena
 
 zwave:
-  usb_path: /dev/ttyACM0 
+  usb_path: /dev/ttyACM0
 
-shell_command: 
+shell_command:
   renew_ssl: /home/homeassistant/certbot/certbot-auto renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
 
 ios:
@@ -209,7 +247,7 @@ script:
         data_template:
           message: "{{ message }}"
           target:
-          - !secret telegram_bot_allowed_chat_id_lena
+            - !secret telegram_bot_allowed_chat_id_lena
       - service: persistent_notification.create
         data_template:
           message: "{{ message }}"
@@ -220,7 +258,7 @@ script:
         data_template:
           message: "{{ message }}"
           target:
-          - !secret telegram_bot_allowed_chat_id_lena
+            - !secret telegram_bot_allowed_chat_id_lena
 
 august:
   login_method: email
@@ -237,4 +275,3 @@ recorder:
 variable:
   front_door_open_triggered:
     value: False
-  

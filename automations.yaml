@@ -1,29 +1,29 @@
-- id: '1500252033618'
+- id: "1500252033618"
   alias: garage_door_opened
   trigger:
-  - entity_id: binary_sensor.garage_sensor_sensor
-    from: 'off'
-    platform: state
-    to: 'on'
+    - entity_id: binary_sensor.garage_sensor_sensor
+      from: "off"
+      platform: state
+      to: "on"
   action:
-  - data:
-      message: Garage door was opened!
-    service: script.notify_all
-- id: '1500252439165'
+    - data:
+        message: Garage door was opened!
+      service: script.notify_all
+- id: "1500252439165"
   alias: garage_door_closed
   trigger:
-  - entity_id: binary_sensor.garage_sensor_sensor
-    from: 'on'
-    platform: state
-    to: 'off'
+    - entity_id: binary_sensor.garage_sensor_sensor
+      from: "on"
+      platform: state
+      to: "off"
   action:
-  - data:
-      message: Garage door was closed!
-    service: script.notify_all
+    - data:
+        message: Garage door was closed!
+      service: script.notify_all
 - action:
-  - data:
-      message: pong
-    service: script.notify_all
+    - data:
+        message: pong
+      service: script.notify_all
   alias: Telegram bot that replies pong to ping
   hide_entity: true
   trigger:
@@ -32,30 +32,30 @@
     event_data:
       command: /ping
   id: 3c964bd9ca914c068ccde70a99e865ec
-- id: '1500789219671'
+- id: "1500789219671"
   alias: sensor_case_removed
   trigger:
-  - entity_id: sensor.garage_sensor_burglar
-    from: '0'
-    platform: state
-    to: '3'
+    - entity_id: sensor.garage_sensor_burglar
+      from: "0"
+      platform: state
+      to: "3"
   action:
-  - data:
-      message: Garage door sensor case was removed!
-    service: script.notify_all
-- id: '1500789719339'
+    - data:
+        message: Garage door sensor case was removed!
+      service: script.notify_all
+- id: "1500789719339"
   alias: garage_door_sensor_low_power
   trigger:
-  - entity_id: sensor.garage_sensor_power_management
-    from: '0'
-    platform: state
-    to: '11'
+    - entity_id: sensor.garage_sensor_power_management
+      from: "0"
+      platform: state
+      to: "11"
   action:
-  - data:
-      message: Low power for garage door sensor
-    service: script.notify_all
+    - data:
+        message: Low power for garage door sensor
+      service: script.notify_all
 - action:
-  - service: homeassistant.restart
+    - service: homeassistant.restart
   alias: Restart home assistant
   hide_entity: true
   trigger:
@@ -80,148 +80,268 @@
   action:
     service: notify.telegram_notify
     data:
-      message: Warning - SSL certificate expires in 21 days and has not been automatically
+      message:
+        Warning - SSL certificate expires in 21 days and has not been automatically
         renewed
   id: 70f56b5e870246a89a8105ff5c810bb2
-- id: '1507784093722'
+- id: "1507784093722"
   alias: high_temperature
   trigger:
-  - above: '100'
-    below: '1000'
-    entity_id: sensor.fibaro_system_fgk10x_door_opening_sensor_temperature_2
-    platform: numeric_state
+    - above: "100"
+      below: "1000"
+      entity_id: sensor.fibaro_system_fgk10x_door_opening_sensor_temperature_2
+      platform: numeric_state
   action:
-  - data:
-      message: High temperature!
-    service: script.notify_all
-- id: '1517797065431'
+    - data:
+        message: High temperature!
+      service: script.notify_all
+- id: "1517797065431"
   alias: normal_temperature
   trigger:
-  - above: '0'
-    below: '100'
-    entity_id: sensor.fibaro_system_fgk10x_door_opening_sensor_temperature_2
-    platform: numeric_state
+    - above: "0"
+      below: "100"
+      entity_id: sensor.fibaro_system_fgk10x_door_opening_sensor_temperature_2
+      platform: numeric_state
   action:
-  - data:
-      message: Normal  temperature
-    service: script.notify_all
-- id: 64bb30a2d16f45978c161c12b75e14dd
+    - data:
+        message: Normal  temperature
+      service: script.notify_all
+- id: fire_alert_living_room
   alias: fire_alert_living_room
   trigger:
-  - platform: template
-    value_template: '{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
-      == ''1'' %}true{% endif %}'
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
+        == '1' %}true{% endif %}"
   action:
-  - data:
-      message: Fire alert in living room!!!!
-    service: script.notify_all
-- id: 7bada79962d14c53ae5195f3055d8b78
+    - data:
+        message: Fire alert in the living room!!!!
+      service: script.notify_all
+- id: co_alert_living_room
   alias: co_alert_living_room
   trigger:
-  - platform: template
-    value_template: '{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
-      == ''2'' %}true{% endif %}'
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
+        == '2' %}true{% endif %}"
   action:
-  - data:
-      message: CO alert in living room!!!!
-    service: script.notify_all
-- action:
-  - service: script.notify_all
-    data:
-      message: Alarm testing
-  alias: alarm_testing
+    - data:
+        message: CO alert in the living room!!!!
+      service: script.notify_all
+- id: alarm_testing_living_room
+  alias: alarm_testing_living_room
   trigger:
-    platform: template
-    value_template: '{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
-      == ''12'' %}true{% endif %}'
-  id: efc3a86d9485418d9d99dbdba0e525af
-- id: '1520122187139'
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
+        == '12' %}true{% endif %}"
+  action:
+    - data:
+        message: Alarm testing in the living room
+      service: script.notify_all
+- id: "fire_alam_living_room_low_battery"
   alias: fire_alam_living_room_low_battery
   trigger:
-  - below: '30'
-    entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector
-    platform: numeric_state
-    value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector.attributes.battery_level
+    - below: "30"
+      entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector
+      platform: numeric_state
+      value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector.attributes.battery_level
   action:
-  - data:
-      message: Low battery for fire alarm in the living room
-    service: script.notify_all
-- id: '1548020412003'
+    - data:
+        message: Low battery for fire alarm in the living room
+      service: script.notify_all
+- id: fire_alert_bedroom
+  alias: fire_alert_bedroom
+  trigger:
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_2.state
+        == '1' %}true{% endif %}"
+  action:
+    - data:
+        message: Fire alert in the bedroom!!!!
+      service: script.notify_all
+- id: co_alert_bedroom
+  alias: co_alert_bedroom
+  trigger:
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_2.state
+        == '2' %}true{% endif %}"
+  action:
+    - data:
+        message: CO alert in the bedroom!!!!
+      service: script.notify_all
+- id: alarm_testing_bedroom
+  alias: alarm_testing_bedroom
+  trigger:
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_2.state
+        == '12' %}true{% endif %}"
+  action:
+    - data:
+        message: Alarm testing in the bedroom
+      service: script.notify_all
+- id: "fire_alam_bedroom_low_battery"
+  alias: fire_alam_bedroom_low_battery
+  trigger:
+    - below: "30"
+      entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_2
+      platform: numeric_state
+      value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_2.attributes.battery_level
+  action:
+    - data:
+        message: Low battery for fire alarm in the bedroom
+      service: script.notify_all
+- id: fire_alert_gym
+  alias: fire_alert_gym
+  trigger:
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_3.state
+        == '1' %}true{% endif %}"
+  action:
+    - data:
+        message: Fire alert in the gym!!!!
+      service: script.notify_all
+- id: co_alert_gym
+  alias: co_alert_gym
+  trigger:
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_3.state
+        == '2' %}true{% endif %}"
+  action:
+    - data:
+        message: CO alert in the gym!!!!
+      service: script.notify_all
+- id: alarm_testing_gym
+  alias: alarm_testing_gym
+  trigger:
+    - platform: template
+      value_template:
+        "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_3.state
+        == '12' %}true{% endif %}"
+  action:
+    - data:
+        message: Alarm testing in the gym
+      service: script.notify_all
+- id: "fire_alam_gym_low_battery"
+  alias: fire_alam_gym_low_battery
+  trigger:
+    - below: "30"
+      entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_3
+      platform: numeric_state
+      value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector_3.attributes.battery_level
+  action:
+    - data:
+        message: Low battery for fire alarm in the gym
+      service: script.notify_all
+- id: "1548020412003"
   alias: Balcony door was opened
   trigger:
-  - entity_id: ' binary_sensor.neo_coolcam_door_window_detector_sensor'
-    from: 'off'
-    platform: state
-    to: 'on'
+    - entity_id: " binary_sensor.neo_coolcam_door_window_detector_sensor"
+      from: "off"
+      platform: state
+      to: "on"
   condition: []
   action:
-  - alias: ''
-    data:
-      message: Balcony door was opened!
-    service: script.notify_all
-- id: '1548020473891'
+    - alias: ""
+      data:
+        message: Balcony door was opened!
+      service: script.notify_all
+- id: "1548020473891"
   alias: Balcony door was closed
   trigger:
-  - entity_id: ' binary_sensor.neo_coolcam_door_window_detector_sensor'
-    from: 'on'
-    platform: state
-    to: 'off'
+    - entity_id: " binary_sensor.neo_coolcam_door_window_detector_sensor"
+      from: "on"
+      platform: state
+      to: "off"
   condition: []
   action:
-  - data:
-      message: Balcony door was closed
-    service: script.notify_all
-- id: '1549081855630'
+    - data:
+        message: Balcony door was closed
+      service: script.notify_all
+
+- id: "gym_window_opened"
+  alias: Gym window was opened
+  trigger:
+    - entity_id: "binary_sensor.ecolink_door_window_sensor_sensor"
+      from: "off"
+      platform: state
+      to: "on"
+  condition: []
+  action:
+    - alias: ""
+      data:
+        message: Gym window was opened!
+      service: script.notify_all
+- id: "gym_window_closed"
+  alias: Gym window was closed
+  trigger:
+    - entity_id: "binary_sensor.ecolink_door_window_sensor_sensor"
+      from: "on"
+      platform: state
+      to: "off"
+  condition: []
+  action:
+    - data:
+        message: Gym window was closed
+      service: script.notify_all
+
+- id: "1549081855630"
   alias: Front door unlocked
   trigger:
-  - entity_id: lock.front_door
-    for: 00:10
-    from: locked
-    platform: state
-    to: unlocked
+    - entity_id: lock.front_door
+      for: 00:10
+      from: locked
+      platform: state
+      to: unlocked
   condition:
-  - condition: state
-    entity_id: lock.front_door
-    state: unlocked
+    - condition: state
+      entity_id: lock.front_door
+      state: unlocked
   action:
-  - data:
-      message: Front door has been opened for a while!
-    service: script.notify_all
-  - data:
-      value: true
-      variable: front_door_open_triggered
-    service: variable.set_variable
-- id: '1549845015326'
+    - data:
+        message: Front door has been opened for a while!
+      service: script.notify_all
+    - data:
+        value: true
+        variable: front_door_open_triggered
+      service: variable.set_variable
+- id: "1549845015326"
   alias: Front door locked
   trigger:
-  - entity_id: lock.front_door
-    from: unlocked
-    platform: state
-    to: locked
+    - entity_id: lock.front_door
+      from: unlocked
+      platform: state
+      to: locked
   condition:
-  - condition: state
-    entity_id: variable.front_door_open_triggered
-    state: 'True'
+    - condition: state
+      entity_id: variable.front_door_open_triggered
+      state: "True"
   action:
-  - data:
-      value: false
-      variable: front_door_open_triggered
-    service: variable.set_variable
-  - data:
-      message: Front door has been closed!
-    service: script.notify_all
-- id: '1566184319280'
+    - data:
+        value: false
+        variable: front_door_open_triggered
+      service: variable.set_variable
+    - data:
+        message: Front door has been closed!
+      service: script.notify_all
+- id: "1566184319280"
   alias: New Automation
   trigger:
-  - event_data:
-      command: /garage_door_status
-    event_type: telegram_command
-    platform: event
+    - event_data:
+        command: /garage_door_status
+      event_type: telegram_command
+      platform: event
   condition: []
   action:
-  - data:
-      message: '{%- if states.sensor.garage_sensor_access_control.state == ''23''
-        %} closed {%- elif states.sensor.garage_sensor_access_control.state == ''22''
-        %} open {%- else %} {{states.sensor.garage_sensor_access_control.state}} test  {%-
-        endif %}'
-    service: script.notify_all
+    - data:
+        message:
+          "{%- if states.sensor.garage_sensor_access_control.state == '23'
+          %} closed {%- elif states.sensor.garage_sensor_access_control.state == '22'
+          %} open {%- else %} {{states.sensor.garage_sensor_access_control.state}} test  {%-
+          endif %}"
+      service: script.notify_all
