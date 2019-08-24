@@ -105,24 +105,26 @@
   - data:
       message: Normal  temperature
     service: script.notify_all
-- action:
-  - service: script.notify_all
-    data:
-      message: Fire alert!!!!
-  alias: fire_alert
+- id: 64bb30a2d16f45978c161c12b75e14dd
+  alias: fire_alert_living_room
   trigger:
-    platform: template
-    value_template: "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == '1' %}true{% endif %}"
-  id: 64bb30a2d16f45978c161c12b75e14dd
-- action:
-  - service: script.notify_all
-    data:
-      message: CO alert!!!!
-  alias: co_alert
+  - platform: template
+    value_template: '{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
+      == ''1'' %}true{% endif %}'
+  action:
+  - data:
+      message: Fire alert in living room!!!!
+    service: script.notify_all
+- id: 7bada79962d14c53ae5195f3055d8b78
+  alias: co_alert_living_room
   trigger:
-    platform: template
-    value_template: "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == '2' %}true{% endif %}"
-  id: 7bada79962d14c53ae5195f3055d8b78
+  - platform: template
+    value_template: '{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
+      == ''2'' %}true{% endif %}'
+  action:
+  - data:
+      message: CO alert in living room!!!!
+    service: script.notify_all
 - action:
   - service: script.notify_all
     data:
@@ -130,10 +132,11 @@
   alias: alarm_testing
   trigger:
     platform: template
-    value_template: "{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state == '12' %}true{% endif %}"
+    value_template: '{%- if states.sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type.state
+      == ''12'' %}true{% endif %}'
   id: efc3a86d9485418d9d99dbdba0e525af
 - id: '1520122187139'
-  alias: fire_alram_low_battery
+  alias: fire_alam_living_room_low_battery
   trigger:
   - below: '30'
     entity_id: zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector
@@ -141,7 +144,7 @@
     value_template: states.zwave.first_alert_zcombo_smoke_and_carbon_monoxide_detector.attributes.battery_level
   action:
   - data:
-      message: Low battery for fire alarm
+      message: Low battery for fire alarm in the living room
     service: script.notify_all
 - id: '1548020412003'
   alias: Balcony door was opened
@@ -217,5 +220,8 @@
   condition: []
   action:
   - data:
-      message: "{%- if states.sensor.garage_sensor_access_control.state == '23' %} closed {%- elif states.sensor.garage_sensor_access_control.state == '22' %} open {%- else %} {{states.sensor.garage_sensor_access_control.state}} test  {%- endif %}"
+      message: '{%- if states.sensor.garage_sensor_access_control.state == ''23''
+        %} closed {%- elif states.sensor.garage_sensor_access_control.state == ''22''
+        %} open {%- else %} {{states.sensor.garage_sensor_access_control.state}} test  {%-
+        endif %}'
     service: script.notify_all

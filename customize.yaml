@@ -67,3 +67,24 @@ sensor.garage_sensor_power_management:
   hidden: true
 sensor.garage_sensor_sourcenodeid:
   hidden: true
+sensor.ecolink_door_window_sensor_access_control:
+  hidden: true
+sensor.ecolink_door_window_sensor_alarm_level:
+  hidden: true
+sensor.ecolink_door_window_sensor_alarm_type:
+  hidden: true
+sensor.ecolink_door_window_sensor_burglar:
+  hidden: true
+sensor.ecolink_door_window_sensor_power_management:
+  hidden: true
+binary_sensor.ecolink_door_window_sensor_sensor: {}
+sensor.ecolink_door_window_sensor_sourcenodeid:
+  hidden: true
+sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_2:
+  hidden: true
+sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level_2:
+  hidden: true
+sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_level_3:
+  hidden: true
+sensor.first_alert_zcombo_smoke_and_carbon_monoxide_detector_alarm_type_3:
+  hidden: true
